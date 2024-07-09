@@ -31,11 +31,6 @@ jobs:
         cd React-Tutorial/my-app
         npm install
 
-    - name: Build
-      run: |
-        cd React-Tutorial/my-app
-        npm run build
-
     - name: Deploy
       run: |
         git config --global user.email "deploy_react_tutorial.yml.github.com"
@@ -43,6 +38,9 @@ jobs:
         git remote set-url origin https://${github_token}@github.com/${repository}
         cd React-Tutorial/my-app
         npm run deploy
+        git add .
+        git commit -m "Deploy React Tutorial to Pages"
+        git push origin HEAD:gh-pages
       env:
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'

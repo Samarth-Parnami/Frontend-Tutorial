@@ -1,0 +1,50 @@
+name: Deploy React Tutorial to Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: |
+        cd React-Tutorial/my-app
+        npm install
+
+    - name: Build
+      run: |
+        cd React-Tutorial/my-app
+        npm run build
+
+    - name: Deploy
+      run: |
+        git config --global user.email "deploy_react_tutorial.yml.github.com"
+        git config --global user.name "Deploy React Tutorial to Pages"
+        git remote set-url origin https://${github_token}@github.com/${repository}
+        cd React-Tutorial/my-app
+        npm run deploy
+      env:
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        github_token: ${{ secrets.REACT_APP_DEPLOY_ACCESS_TOKEN }}
+        repository: ${{ github.repository }}

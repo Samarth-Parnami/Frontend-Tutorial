@@ -8,8 +8,8 @@
 # testing
 /coverage
 
-# production
-/build
+# production Commenting for Github Workflow Deployment
+# /build
 
 # misc
 .DS_Store

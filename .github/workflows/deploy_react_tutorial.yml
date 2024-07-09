@@ -37,6 +37,7 @@ jobs:
         git config --global user.name "Deploy React Tutorial to Pages"
         git remote set-url origin https://${github_token}@github.com/${repository}
         cd React-Tutorial/my-app
+        rm .gitignore
         npm run deploy
       env:
         user_name: 'github-actions[bot]'
